@@ -6,12 +6,10 @@ const router = express.Router();
 router
   .route('/')
   .get(eventController.getAllEvents)
-  .post(eventController.createEvent);
-
-router
-  .route('/:id')
-  .get(eventController.getEvent)
+  .post(eventController.createEvent)
   .patch(eventController.updateEvent)
   .delete(eventController.deleteEvent);
+
+router.route('/:id').get(eventController.getEvent);
 
 module.exports = router;

@@ -28,7 +28,7 @@ exports.getAll = (Model) =>
 
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndDelete(req.params.id);
+    const doc = await Model.findOneAndDelete({ name: req.body.currentName });
 
     if (!doc) {
       return next(new AppError(`No document found with that ID`, 404));
@@ -42,10 +42,14 @@ exports.deleteOne = (Model) =>
 
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const doc = await Model.findOneAndUpdate(
+      { name: req.body.currentName },
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
 
     if (!doc) {
       return next(new AppError('No document found with that ID', 404));
